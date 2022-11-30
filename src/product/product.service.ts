@@ -1,12 +1,12 @@
-import { Injectable } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { ObjectId } from "bson";
-import { Model } from "mongoose";
-import { ProductType, ProductTypeDocument } from "src/product/schemas/product.schema";
-import { Supplier, SupplierDocument } from "src/supplier/schemas/supplier.schema";
-import { helper } from "src/utils/helper";
-import { ESTIMATE_DEFAULT } from "../utils/enum";
-import { ProductTypeDto } from "./dto/base-product-type.dto";
+import {Injectable} from "@nestjs/common";
+import {InjectModel} from "@nestjs/mongoose";
+import {ObjectId} from "bson";
+import {Model} from "mongoose";
+import {ProductType, ProductTypeDocument} from "src/product/schemas/product.schema";
+import {Supplier, SupplierDocument} from "src/supplier/schemas/supplier.schema";
+import {helper} from "src/utils/helper";
+import {ESTIMATE_DEFAULT} from "../utils/enum";
+import {ProductTypeDto} from "./dto/base-product-type.dto";
 
 @Injectable()
 export class ProductService {
@@ -17,7 +17,7 @@ export class ProductService {
     const config = supplierCheck
       ? supplierCheck.config
       : ESTIMATE_DEFAULT.config;
-    
+
     return {
       orderPlace: new Date(),
       shipping: {
@@ -38,11 +38,28 @@ export class ProductService {
 
   async estimateShipping(data : any): Promise < any > {
     let checkType = await this.productTypeModel.find(data);
-
     let supplierId = checkType.length > 0
       ? checkType[0].supplierId
       : new ObjectId().toString();
-
+      //DDoanj nay them data cho nhieu de test thoi
+    if (checkType.length == 0) {
+      let mockup = [
+        "63871e8b2625ce55651a44f7",
+        "63871e9a2625ce55651a44f9",
+        "63871ea92625ce55651a44fb",
+        "63871e8b2625ce55651a44f7",
+        "63871e9a2625ce55651a44f9",
+        "63871ea92625ce55651a44fb",
+        "63871e8b2625ce55651a44f7",
+        "63871e9a2625ce55651a44f9",
+        "63871ea92625ce55651a44fb"
+      ];
+      this.create({
+        type: data.type,
+        supplierId: mockup[helper.getRandomInt(mockup.length - 1)]
+      });
+    }
+    /////////
     const estTime = await this.getEstimateTime(supplierId, new Date());
     return {type: data.type, supplierId: supplierId, estTime: estTime}
   };

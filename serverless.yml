@@ -11,7 +11,7 @@
 #
 # Happy Coding!
 
-service: demo
+service: estimate-shipping
 
 plugins:
   - serverless-plugin-optimize
@@ -40,6 +40,8 @@ custom:
     - X-Api-Key
     - X-Amz-Security-Token
     - X-Amz-User-Agent
+    - Access-Control-Allow-Credentials
+    - Access-Control-Allow-Origin
   serverless-offline:
     port: 4000
 
@@ -50,7 +52,7 @@ provider:
   region: ap-southeast-2
   stage: dev
   memorySize: 512
-  timeout: 10
+  timeout: 30
   # endpointType: regional
   environment:
     DEBUG: 'true'
@@ -69,6 +71,7 @@ functions:
           #   name: authorizer
           #   arn: ${self:provider.environment.COGNITO_PHARMACIST_POOL_ARN}
           cors: true
+
       - http: # all routes get proxied to the Express router
           path: /{proxy+}
           method: ANY

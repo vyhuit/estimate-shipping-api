@@ -2,6 +2,7 @@
   "material-icon-theme.activeIconPack": "nest",
   "editor.rulers": [90,120],
   "workbench.colorCustomizations": {
-      "editorRuler.foreground": "#00fff7"
-  }
+      "editorRuler.foreground": "#003937"
+  },
+  "compile-hero.disable-compile-files-on-did-save-code": false
 }

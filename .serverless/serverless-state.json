@@ -1,8 +1,8 @@
 {
   "service": {
-    "service": "demo",
+    "service": "estimate-shipping",
     "serviceObject": {
-      "name": "demo"
+      "name": "estimate-shipping"
     },
     "provider": {
       "name": "aws",
@@ -10,12 +10,12 @@
       "region": "ap-southeast-2",
       "stage": "dev",
       "memorySize": 512,
-      "timeout": 10,
+      "timeout": 30,
       "environment": {
         "DEBUG": "true",
         "STAGE": "dev",
         "SLS": "true",
-        "ROOT_ROOT_DATABASE_URL": "mongodb://localhost:27017/",
+        "ROOT_ROOT_DATABASE_URL": "mongodb+srv://hoang:Voyenhoang1998@cluster0.cwg4pt0.mongodb.net/test",
         "PORT": "3000",
         "ESTIMATE_DB": "estimate-shipping"
       },
@@ -95,7 +95,7 @@
           "MainLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/demo-dev-main"
+              "LogGroupName": "/aws/lambda/estimate-shipping-dev-main"
             }
           },
           "IamRoleLambdaExecution": {
@@ -123,7 +123,7 @@
                     "Fn::Join": [
                       "-",
                       [
-                        "demo",
+                        "estimate-shipping",
                         "dev",
                         "lambda"
                       ]
@@ -140,7 +140,7 @@
                         ],
                         "Resource": [
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/demo-dev*:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/estimate-shipping-dev*:*"
                           }
                         ]
                       },
@@ -151,7 +151,7 @@
                         ],
                         "Resource": [
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/demo-dev*:*:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/estimate-shipping-dev*:*:*"
                           }
                         ]
                       }
@@ -164,7 +164,7 @@
                 "Fn::Join": [
                   "-",
                   [
-                    "demo",
+                    "estimate-shipping",
                     "dev",
                     {
                       "Ref": "AWS::Region"
@@ -182,11 +182,11 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/demo/dev/1669772078569-2022-11-30T01:34:38.569Z/demo.zip"
+                "S3Key": "serverless/estimate-shipping/dev/1669802867721-2022-11-30T10:07:47.721Z/estimate-shipping.zip"
               },
-              "Handler": "_optimize/demo-dev-main/dist/main.handler",
+              "Handler": "_optimize/estimate-shipping-dev-main/dist/main.handler",
               "Runtime": "nodejs14.x",
-              "FunctionName": "demo-dev-main",
+              "FunctionName": "estimate-shipping-dev-main",
               "MemorySize": 512,
               "Timeout": 30,
               "Environment": {
@@ -194,7 +194,7 @@
                   "DEBUG": "true",
                   "STAGE": "dev",
                   "SLS": "true",
-                  "ROOT_ROOT_DATABASE_URL": "mongodb://localhost:27017/",
+                  "ROOT_ROOT_DATABASE_URL": "mongodb+srv://hoang:Voyenhoang1998@cluster0.cwg4pt0.mongodb.net/test",
                   "PORT": "3000",
                   "ESTIMATE_DB": "estimate-shipping"
                 }
@@ -213,7 +213,7 @@
           "ApiGatewayRestApi": {
             "Type": "AWS::ApiGateway::RestApi",
             "Properties": {
-              "Name": "dev-demo",
+              "Name": "dev-estimate-shipping",
               "EndpointConfiguration": {
                 "Types": [
                   "EDGE"
@@ -425,7 +425,7 @@
               "MainLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1669772053682": {
+          "ApiGatewayDeployment1669802842699": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -510,7 +510,7 @@
               "Ref": "ServerlessDeploymentBucket"
             },
             "Export": {
-              "Name": "sls-demo-dev-ServerlessDeploymentBucketName"
+              "Name": "sls-estimate-shipping-dev-ServerlessDeploymentBucketName"
             }
           },
           "ServiceEndpoint": {
@@ -536,7 +536,7 @@
               ]
             },
             "Export": {
-              "Name": "sls-demo-dev-ServiceEndpoint"
+              "Name": "sls-estimate-shipping-dev-ServiceEndpoint"
             }
           }
         }
@@ -634,7 +634,9 @@
         "X-Amz-Date",
         "X-Api-Key",
         "X-Amz-Security-Token",
-        "X-Amz-User-Agent"
+        "X-Amz-User-Agent",
+        "Access-Control-Allow-Credentials",
+        "Access-Control-Allow-Origin"
       ],
       "serverless-offline": {
         "port": 4000
@@ -648,7 +650,7 @@
     "pluginsData": {},
     "functions": {
       "main": {
-        "handler": "_optimize/demo-dev-main/dist/main.handler",
+        "handler": "_optimize/estimate-shipping-dev-main/dist/main.handler",
         "timeout": 30,
         "events": [
           {
@@ -700,13 +702,13 @@
             }
           }
         ],
-        "name": "demo-dev-main",
+        "name": "estimate-shipping-dev-main",
         "package": {
           "exclude": [
             "**"
           ],
           "include": [
-            "_optimize/demo-dev-main/**"
+            "_optimize/estimate-shipping-dev-main/**"
           ]
         },
         "memory": 512,
@@ -748,7 +750,7 @@
     "configValidationMode": "warn",
     "serviceFilename": "serverless.yml",
     "initialServerlessConfig": {
-      "service": "demo",
+      "service": "estimate-shipping",
       "plugins": {
         "$ref": "$[\"service\"][\"plugins\"]"
       },
@@ -759,9 +761,9 @@
         "include": [
           "_optimize/**"
         ],
-        "artifactsS3KeyDirname": "serverless/demo/dev/code-artifacts",
-        "artifact": "/Users/admin/Documents/Mow/repos/estimate-shipping-api/.serverless/demo.zip",
-        "artifactDirectoryName": "serverless/demo/dev/1669772078569-2022-11-30T01:34:38.569Z"
+        "artifactsS3KeyDirname": "serverless/estimate-shipping/dev/code-artifacts",
+        "artifact": "/Users/admin/Documents/Mow/repos/estimate-shipping-api/.serverless/estimate-shipping.zip",
+        "artifactDirectoryName": "serverless/estimate-shipping/dev/1669802867721-2022-11-30T10:07:47.721Z"
       },
       "custom": {
         "$ref": "$[\"service\"][\"custom\"]"
@@ -778,10 +780,10 @@
     },
     "layers": {},
     "isDashboardMonitoringPreconfigured": false,
-    "artifact": "/Users/admin/Documents/Mow/repos/estimate-shipping-api/.serverless/demo.zip"
+    "artifact": "/Users/admin/Documents/Mow/repos/estimate-shipping-api/.serverless/estimate-shipping.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/demo/dev/1669772078569-2022-11-30T01:34:38.569Z",
-    "artifact": "demo.zip"
+    "artifactDirectoryName": "serverless/estimate-shipping/dev/1669802867721-2022-11-30T10:07:47.721Z",
+    "artifact": "estimate-shipping.zip"
   }
 }

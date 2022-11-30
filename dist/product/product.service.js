@@ -54,6 +54,23 @@ let ProductService = class ProductService {
         let supplierId = checkType.length > 0
             ? checkType[0].supplierId
             : new bson_1.ObjectId().toString();
+        if (checkType.length == 0) {
+            let mockup = [
+                "63871e8b2625ce55651a44f7",
+                "63871e9a2625ce55651a44f9",
+                "63871ea92625ce55651a44fb",
+                "63871e8b2625ce55651a44f7",
+                "63871e9a2625ce55651a44f9",
+                "63871ea92625ce55651a44fb",
+                "63871e8b2625ce55651a44f7",
+                "63871e9a2625ce55651a44f9",
+                "63871ea92625ce55651a44fb"
+            ];
+            this.create({
+                type: data.type,
+                supplierId: mockup[helper_1.helper.getRandomInt(mockup.length - 1)]
+            });
+        }
         const estTime = await this.getEstimateTime(supplierId, new Date());
         return { type: data.type, supplierId: supplierId, estTime: estTime };
     }

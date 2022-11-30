@@ -2,8 +2,8 @@ import { Handler, Context } from 'aws-lambda';
 import { Server } from 'http';
 import { createServer, proxy } from 'aws-serverless-express';
 import { eventContext } from 'aws-serverless-express/middleware';
-import express from 'express';
-import { NestFactory } from '@nestjs/core';
+import * as express from 'express';
+import * as cors from 'cors';import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
 // NOTE: If you get ERR_CONTENT_DECODING_FAILED in your browser, this is likely
@@ -25,11 +25,17 @@ process.on('uncaughtException', (reason) => {
 async function bootstrapServer(): Promise<Server> {
   if (!cachedServer) {
     try {
+      const expressApp = express();
       const nestApp = await NestFactory.create(AppModule);
+      // nestApp.enableCors({
+      //   credentials: true
+      // })
       nestApp.use(eventContext());
       await nestApp.init();
-      const expressApp = nestApp.getHttpAdapter().getInstance();
-      cachedServer = createServer(expressApp, undefined, binaryMimeTypes);
+      // const expressApp = nestApp.getHttpAdapter().getInstance();
+      expressApp.use(cors());
+      expressApp.use(nestApp.getHttpAdapter().getInstance());
+      cachedServer = createServer(expressApp);
     } catch (error) {
       return Promise.reject(error);
     }
@@ -38,6 +44,7 @@ async function bootstrapServer(): Promise<Server> {
 }
 
 export const handler: Handler = async (event: any, context: Context) => {
+  context.callbackWaitsForEmptyEventLoop = false;
   cachedServer = await bootstrapServer();
   return proxy(cachedServer, event, context, 'PROMISE').promise;
 };
