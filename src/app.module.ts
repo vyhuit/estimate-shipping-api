@@ -5,7 +5,7 @@ import { SupplierModule } from './supplier/supplier.module';
 
 @Module({
   imports: [
-    ProductModule, SupplierModule, MongooseModule.forRoot(process.env.ROOT_DATABASE_URL + process.env.ESTIMATE_DB || "mongodb://localhost:27017/estimate-shipping")
+    ProductModule, SupplierModule, MongooseModule.forRoot("mongodb+srv://hoang:Voyenhoang1998@cluster0.cwg4pt0.mongodb.net/estimate-shipping")
   ]
 })
 export class AppModule {}

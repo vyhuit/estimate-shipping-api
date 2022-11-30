@@ -17,6 +17,17 @@ import {SupplierService} from "./supplier.service";
 export class SupplierController {
   constructor(private supplierService : SupplierService,) {};
 
+  @Get()
+  async getAll(@Res()response : any) {
+    try {
+      const result = await this.supplierService.getAll();
+      return response.status(HttpStatus.OK).json({isSuccess: true, message: 'Success', result});
+    } catch (err) {
+      console.log("ERR =====> ", err);
+      throw new NotFoundException(err.message);
+    }
+  };
+
   @Post("create")
   async create(@Res()response : any, @Body()data : BaseSupplierDto) {
     try {
@@ -39,16 +50,6 @@ export class SupplierController {
     }
   };
 
-  @Get()
-  async getAll(@Res()response : any) {
-    try {
-      const result = await this.supplierService.getAll();
-      return response.status(HttpStatus.OK).json({isSuccess: true, message: 'Success', result});
-    } catch (err) {
-      console.log("ERR =====> ", err);
-      throw new NotFoundException(err.message);
-    }
-  };
 
   @Get("/:id")
   async getSupplier(@Res()response : any, @Param("id") id : string) {
