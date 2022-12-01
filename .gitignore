@@ -30,3 +30,6 @@ lerna-debug.log*
 # IDE - VSCode
 .vscode/*
 .prettierrc
+yarn.lock
+package-lock.json
+dist/main.js
