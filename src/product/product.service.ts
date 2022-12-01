@@ -39,7 +39,7 @@ export class ProductService {
     let checkType = await this.productTypeModel.findOne(data);
     let supplierId = checkType?.supplierId || new ObjectId().toString(); //lay config default khi data chua co.
     const estTime = await this.getEstimateTime(supplierId, new Date());
-    return {type: data.type, supplierId: supplierId, estTime: estTime}
+    return {type: data.type, supplierId: supplierId, estTime: estTime};
     
 // // DDoanj nay them data cho nhieu de test thoi
 //     if (!checkType) {
