@@ -14,35 +14,34 @@ export class ProductService {
 
   async getEstimateTime(supplier : string, dateStart : Date) {
     const supplierCheck = await this.supplierModel.findOne({_id: supplier});
-    const config = supplierCheck
-      ? supplierCheck.config
-      : ESTIMATE_DEFAULT.config;
+    const data = supplierCheck || ESTIMATE_DEFAULT;
 
     return {
       orderPlace: new Date(),
       shipping: {
-        min: helper.addDateExcWorkingDay("min", dateStart, config.shipping.min),
-        max: helper.addDateExcWorkingDay("max", dateStart, config.shipping.max)
+        min: helper.addDateExcWorkingDay("min", dateStart, data.config.shipping.min),
+        max: helper.addDateExcWorkingDay("max", dateStart, data.config.shipping.max)
       },
       delivery: {
-        min: helper.addDateExcWorkingDay("min", dateStart, config.delivery.min),
-        max: helper.addDateExcWorkingDay("max", dateStart, config.delivery.max)
-      }
+        min: helper.addDateExcWorkingDay("min", dateStart, data.config.delivery.min),
+        max: helper.addDateExcWorkingDay("max", dateStart, data.config.delivery.max)
+      },
+      config: data
     };;
   }
 
   async create(createDto : ProductTypeDto): Promise < ProductType > {
     const createProductType = new this.productTypeModel(createDto);
+    console.log(createProductType);
     return createProductType.save();
   }
 
   async estimateShipping(data : any): Promise < any > {
-    let checkType = await this.productTypeModel.find(data);
-    let supplierId = checkType.length > 0
-      ? checkType[0].supplierId
-      : new ObjectId().toString();
-      //DDoanj nay them data cho nhieu de test thoi
-    if (checkType.length == 0) {
+    let checkType = await this.productTypeModel.findOne(data);
+    let supplierId = checkType?.supplierId || new ObjectId().toString(); //lay config default khi data chua co.
+
+// DDoanj nay them data cho nhieu de test thoi
+    if (!checkType) {
       let mockup = [
         "63871e8b2625ce55651a44f7",
         "63871e9a2625ce55651a44f9",
@@ -54,12 +53,15 @@ export class ProductService {
         "63871e9a2625ce55651a44f9",
         "63871ea92625ce55651a44fb"
       ];
-      this.create({
+      let ran = helper.getRandomInt(mockup.length - 1);
+      let temp = {
         type: data.type,
-        supplierId: mockup[helper.getRandomInt(mockup.length - 1)]
-      });
+        supplierId: mockup[ran]
+      }
+      this.create(temp);
     }
-    /////////
+
+// ///////
     const estTime = await this.getEstimateTime(supplierId, new Date());
     return {type: data.type, supplierId: supplierId, estTime: estTime}
   };

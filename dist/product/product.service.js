@@ -29,32 +29,30 @@ let ProductService = class ProductService {
     ;
     async getEstimateTime(supplier, dateStart) {
         const supplierCheck = await this.supplierModel.findOne({ _id: supplier });
-        const config = supplierCheck
-            ? supplierCheck.config
-            : enum_1.ESTIMATE_DEFAULT.config;
+        const data = supplierCheck || enum_1.ESTIMATE_DEFAULT;
         return {
             orderPlace: new Date(),
             shipping: {
-                min: helper_1.helper.addDateExcWorkingDay("min", dateStart, config.shipping.min),
-                max: helper_1.helper.addDateExcWorkingDay("max", dateStart, config.shipping.max)
+                min: helper_1.helper.addDateExcWorkingDay("min", dateStart, data.config.shipping.min),
+                max: helper_1.helper.addDateExcWorkingDay("max", dateStart, data.config.shipping.max)
             },
             delivery: {
-                min: helper_1.helper.addDateExcWorkingDay("min", dateStart, config.delivery.min),
-                max: helper_1.helper.addDateExcWorkingDay("max", dateStart, config.delivery.max)
-            }
+                min: helper_1.helper.addDateExcWorkingDay("min", dateStart, data.config.delivery.min),
+                max: helper_1.helper.addDateExcWorkingDay("max", dateStart, data.config.delivery.max)
+            },
+            config: data
         };
         ;
     }
     async create(createDto) {
         const createProductType = new this.productTypeModel(createDto);
+        console.log(createProductType);
         return createProductType.save();
     }
     async estimateShipping(data) {
-        let checkType = await this.productTypeModel.find(data);
-        let supplierId = checkType.length > 0
-            ? checkType[0].supplierId
-            : new bson_1.ObjectId().toString();
-        if (checkType.length == 0) {
+        let checkType = await this.productTypeModel.findOne(data);
+        let supplierId = (checkType === null || checkType === void 0 ? void 0 : checkType.supplierId) || new bson_1.ObjectId().toString();
+        if (!checkType) {
             let mockup = [
                 "63871e8b2625ce55651a44f7",
                 "63871e9a2625ce55651a44f9",
@@ -66,10 +64,12 @@ let ProductService = class ProductService {
                 "63871e9a2625ce55651a44f9",
                 "63871ea92625ce55651a44fb"
             ];
-            this.create({
+            let ran = helper_1.helper.getRandomInt(mockup.length - 1);
+            let temp = {
                 type: data.type,
-                supplierId: mockup[helper_1.helper.getRandomInt(mockup.length - 1)]
-            });
+                supplierId: mockup[ran]
+            };
+            this.create(temp);
         }
         const estTime = await this.getEstimateTime(supplierId, new Date());
         return { type: data.type, supplierId: supplierId, estTime: estTime };

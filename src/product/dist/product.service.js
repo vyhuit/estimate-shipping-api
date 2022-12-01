@@ -61,25 +61,24 @@ var ProductService = /** @class */ (function () {
     ;
     ProductService.prototype.getEstimateTime = function (supplier, dateStart) {
         return __awaiter(this, void 0, void 0, function () {
-            var supplierCheck, config;
+            var supplierCheck, data;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.supplierModel.findOne({ _id: supplier })];
                     case 1:
                         supplierCheck = _a.sent();
-                        config = supplierCheck
-                            ? supplierCheck.config
-                            : enum_1.ESTIMATE_DEFAULT.config;
+                        data = supplierCheck || enum_1.ESTIMATE_DEFAULT;
                         return [2 /*return*/, {
                                 orderPlace: new Date(),
                                 shipping: {
-                                    min: helper_1.helper.addDateExcWorkingDay("min", dateStart, config.shipping.min),
-                                    max: helper_1.helper.addDateExcWorkingDay("max", dateStart, config.shipping.max)
+                                    min: helper_1.helper.addDateExcWorkingDay("min", dateStart, data.config.shipping.min),
+                                    max: helper_1.helper.addDateExcWorkingDay("max", dateStart, data.config.shipping.max)
                                 },
                                 delivery: {
-                                    min: helper_1.helper.addDateExcWorkingDay("min", dateStart, config.delivery.min),
-                                    max: helper_1.helper.addDateExcWorkingDay("max", dateStart, config.delivery.max)
-                                }
+                                    min: helper_1.helper.addDateExcWorkingDay("min", dateStart, data.config.delivery.min),
+                                    max: helper_1.helper.addDateExcWorkingDay("max", dateStart, data.config.delivery.max)
+                                },
+                                config: data
                             }];
                 }
             });
@@ -90,23 +89,22 @@ var ProductService = /** @class */ (function () {
             var createProductType;
             return __generator(this, function (_a) {
                 createProductType = new this.productTypeModel(createDto);
+                console.log(createProductType);
                 return [2 /*return*/, createProductType.save()];
             });
         });
     };
     ProductService.prototype.estimateShipping = function (data) {
         return __awaiter(this, void 0, Promise, function () {
-            var checkType, supplierId, mockup, estTime;
+            var checkType, supplierId, mockup, ran, temp, estTime;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.productTypeModel.find(data)];
+                    case 0: return [4 /*yield*/, this.productTypeModel.findOne(data)];
                     case 1:
                         checkType = _a.sent();
-                        supplierId = checkType.length > 0
-                            ? checkType[0].supplierId
-                            : new bson_1.ObjectId().toString();
-                        //DDoanj nay them data cho nhieu de test thoi
-                        if (checkType.length == 0) {
+                        supplierId = (checkType === null || checkType === void 0 ? void 0 : checkType.supplierId) || new bson_1.ObjectId().toString();
+                        // DDoanj nay them data cho nhieu de test thoi
+                        if (!checkType) {
                             mockup = [
                                 "63871e8b2625ce55651a44f7",
                                 "63871e9a2625ce55651a44f9",
@@ -118,10 +116,12 @@ var ProductService = /** @class */ (function () {
                                 "63871e9a2625ce55651a44f9",
                                 "63871ea92625ce55651a44fb"
                             ];
-                            this.create({
+                            ran = helper_1.helper.getRandomInt(mockup.length - 1);
+                            temp = {
                                 type: data.type,
-                                supplierId: mockup[helper_1.helper.getRandomInt(mockup.length - 1)]
-                            });
+                                supplierId: mockup[ran]
+                            };
+                            this.create(temp);
                         }
                         return [4 /*yield*/, this.getEstimateTime(supplierId, new Date())];
                     case 2:
