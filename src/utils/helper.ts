@@ -12,7 +12,7 @@ const helper = {
     };
     return date;
   },
-  getRandomInt: (max) => {
+  getRandomInt: (max: number) => {
     return Math.floor(Math.random() * max);
   }
 };

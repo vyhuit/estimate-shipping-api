@@ -89,44 +89,45 @@ var ProductService = /** @class */ (function () {
             var createProductType;
             return __generator(this, function (_a) {
                 createProductType = new this.productTypeModel(createDto);
-                console.log(createProductType);
                 return [2 /*return*/, createProductType.save()];
             });
         });
     };
     ProductService.prototype.estimateShipping = function (data) {
         return __awaiter(this, void 0, Promise, function () {
-            var checkType, supplierId, mockup, ran, temp, estTime;
+            var checkType, supplierId, estTime;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.productTypeModel.findOne(data)];
                     case 1:
                         checkType = _a.sent();
                         supplierId = (checkType === null || checkType === void 0 ? void 0 : checkType.supplierId) || new bson_1.ObjectId().toString();
-                        // DDoanj nay them data cho nhieu de test thoi
-                        if (!checkType) {
-                            mockup = [
-                                "63871e8b2625ce55651a44f7",
-                                "63871e9a2625ce55651a44f9",
-                                "63871ea92625ce55651a44fb",
-                                "63871e8b2625ce55651a44f7",
-                                "63871e9a2625ce55651a44f9",
-                                "63871ea92625ce55651a44fb",
-                                "63871e8b2625ce55651a44f7",
-                                "63871e9a2625ce55651a44f9",
-                                "63871ea92625ce55651a44fb"
-                            ];
-                            ran = helper_1.helper.getRandomInt(mockup.length - 1);
-                            temp = {
-                                type: data.type,
-                                supplierId: mockup[ran]
-                            };
-                            this.create(temp);
-                        }
                         return [4 /*yield*/, this.getEstimateTime(supplierId, new Date())];
                     case 2:
                         estTime = _a.sent();
-                        return [2 /*return*/, { type: data.type, supplierId: supplierId, estTime: estTime }];
+                        return [2 /*return*/, { type: data.type, supplierId: supplierId, estTime: estTime }
+                            // // DDoanj nay them data cho nhieu de test thoi
+                            //     if (!checkType) {
+                            //       let mockup = [
+                            //         "63885ab778a1b11665e560b9",
+                            //         "63871e9a2625ce55651a44f9",
+                            //         "63871ea92625ce55651a44fb",
+                            //         "63885ab778a1b11665e560b9",
+                            //         "63871e9a2625ce55651a44f9",
+                            //         "63871ea92625ce55651a44fb",
+                            //         "63885ab778a1b11665e560b9",
+                            //         "63871e9a2625ce55651a44f9",
+                            //         "63871ea92625ce55651a44fb"
+                            //       ];
+                            //       let ran = helper.getRandomInt(mockup.length - 1);
+                            //       let temp = {
+                            //         type: data.type,
+                            //         supplierId: mockup[ran]
+                            //       }
+                            //       this.create(temp);
+                            //     }
+                            // // ///////
+                        ];
                 }
             });
         });

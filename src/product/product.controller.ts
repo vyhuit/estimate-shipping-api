@@ -14,8 +14,10 @@ export class ProductController {
   constructor(private prodService : ProductService) {};
 
   @Post("estimate-shipping")
-  async estimateShipping(@Body()data : any, @Res()response : any) {
+  async estimateShipping(@Body() data : any, @Res() response : any) {
     try {
+      console.log("controller data: ", data);
+
       const result = await this.prodService.estimateShipping(data);
       return response.status(HttpStatus.OK).json({isSuccess: true, message: 'Successfully', data: result});
     } catch (err) {

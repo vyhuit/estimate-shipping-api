@@ -69,14 +69,10 @@ function bootstrapServer() {
                     return [4 /*yield*/, core_1.NestFactory.create(app_module_1.AppModule)];
                 case 2:
                     nestApp = _a.sent();
-                    // nestApp.enableCors({
-                    //   credentials: true
-                    // })
                     nestApp.use(middleware_1.eventContext());
                     return [4 /*yield*/, nestApp.init()];
                 case 3:
                     _a.sent();
-                    // const expressApp = nestApp.getHttpAdapter().getInstance();
                     expressApp.use(cors());
                     expressApp.use(nestApp.getHttpAdapter().getInstance());
                     cachedServer = aws_serverless_express_1.createServer(expressApp);

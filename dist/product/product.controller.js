@@ -23,6 +23,7 @@ let ProductController = class ProductController {
     ;
     async estimateShipping(data, response) {
         try {
+            console.log("controller data: ", data);
             const result = await this.prodService.estimateShipping(data);
             return response.status(common_1.HttpStatus.OK).json({ isSuccess: true, message: 'Successfully', data: result });
         }

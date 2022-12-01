@@ -30,6 +30,7 @@ let ProductService = class ProductService {
     async getEstimateTime(supplier, dateStart) {
         const supplierCheck = await this.supplierModel.findOne({ _id: supplier });
         const data = supplierCheck || enum_1.ESTIMATE_DEFAULT;
+        console.log("=======> supplier: ", data);
         return {
             orderPlace: new Date(),
             shipping: {
@@ -46,25 +47,28 @@ let ProductService = class ProductService {
     }
     async create(createDto) {
         const createProductType = new this.productTypeModel(createDto);
-        console.log(createProductType);
+        console.log("createProductType", createProductType);
         return createProductType.save();
     }
     async estimateShipping(data) {
+        console.log("dataaaaaaaa ", data);
         let checkType = await this.productTypeModel.findOne(data);
         let supplierId = (checkType === null || checkType === void 0 ? void 0 : checkType.supplierId) || new bson_1.ObjectId().toString();
+        console.log("=====> supplierId: ", checkType, supplierId);
         if (!checkType) {
             let mockup = [
-                "63871e8b2625ce55651a44f7",
+                "63885ab778a1b11665e560b9",
                 "63871e9a2625ce55651a44f9",
                 "63871ea92625ce55651a44fb",
-                "63871e8b2625ce55651a44f7",
+                "63885ab778a1b11665e560b9",
                 "63871e9a2625ce55651a44f9",
                 "63871ea92625ce55651a44fb",
-                "63871e8b2625ce55651a44f7",
+                "63885ab778a1b11665e560b9",
                 "63871e9a2625ce55651a44f9",
                 "63871ea92625ce55651a44fb"
             ];
             let ran = helper_1.helper.getRandomInt(mockup.length - 1);
+            console.log("rannnnnn", ran);
             let temp = {
                 type: data.type,
                 supplierId: mockup[ran]

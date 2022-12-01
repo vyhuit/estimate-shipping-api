@@ -32,37 +32,36 @@ export class ProductService {
 
   async create(createDto : ProductTypeDto): Promise < ProductType > {
     const createProductType = new this.productTypeModel(createDto);
-    console.log(createProductType);
     return createProductType.save();
   }
 
   async estimateShipping(data : any): Promise < any > {
     let checkType = await this.productTypeModel.findOne(data);
     let supplierId = checkType?.supplierId || new ObjectId().toString(); //lay config default khi data chua co.
-
-// DDoanj nay them data cho nhieu de test thoi
-    if (!checkType) {
-      let mockup = [
-        "63871e8b2625ce55651a44f7",
-        "63871e9a2625ce55651a44f9",
-        "63871ea92625ce55651a44fb",
-        "63871e8b2625ce55651a44f7",
-        "63871e9a2625ce55651a44f9",
-        "63871ea92625ce55651a44fb",
-        "63871e8b2625ce55651a44f7",
-        "63871e9a2625ce55651a44f9",
-        "63871ea92625ce55651a44fb"
-      ];
-      let ran = helper.getRandomInt(mockup.length - 1);
-      let temp = {
-        type: data.type,
-        supplierId: mockup[ran]
-      }
-      this.create(temp);
-    }
-
-// ///////
     const estTime = await this.getEstimateTime(supplierId, new Date());
     return {type: data.type, supplierId: supplierId, estTime: estTime}
+    
+// // DDoanj nay them data cho nhieu de test thoi
+//     if (!checkType) {
+//       let mockup = [
+//         "63885ab778a1b11665e560b9",
+//         "63871e9a2625ce55651a44f9",
+//         "63871ea92625ce55651a44fb",
+//         "63885ab778a1b11665e560b9",
+//         "63871e9a2625ce55651a44f9",
+//         "63871ea92625ce55651a44fb",
+//         "63885ab778a1b11665e560b9",
+//         "63871e9a2625ce55651a44f9",
+//         "63871ea92625ce55651a44fb"
+//       ];
+//       let ran = helper.getRandomInt(mockup.length - 1);
+//       let temp = {
+//         type: data.type,
+//         supplierId: mockup[ran]
+//       }
+//       this.create(temp);
+//     }
+
+// // ///////
   };
 }

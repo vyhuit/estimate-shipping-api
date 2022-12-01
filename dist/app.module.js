@@ -16,7 +16,7 @@ let AppModule = class AppModule {
 AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            product_module_1.ProductModule, supplier_module_1.SupplierModule, mongoose_1.MongooseModule.forRoot("mongodb+srv://hoang:Voyenhoang1998@cluster0.cwg4pt0.mongodb.net/estimate-shipping")
+            product_module_1.ProductModule, supplier_module_1.SupplierModule, mongoose_1.MongooseModule.forRoot(process.env.ROOT_ROOT_DATABASE_URL || "mongodb+srv://hoang:Voyenhoang1998@cluster0.cwg4pt0.mongodb.net/test")
         ]
     })
 ], AppModule);
