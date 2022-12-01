@@ -32,4 +32,5 @@ lerna-debug.log*
 .prettierrc
 yarn.lock
 package-lock.json
-dist/main.js
+dist/*
+*/dist/*

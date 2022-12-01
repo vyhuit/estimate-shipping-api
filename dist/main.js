@@ -1,7 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.handler = void 0;
 const aws_serverless_express_1 = require("aws-serverless-express");
 const middleware_1 = require("aws-serverless-express/middleware");
@@ -27,13 +25,14 @@ async function bootstrapServer() {
             expressApp.use(cors());
             expressApp.use(nestApp.getHttpAdapter().getInstance());
             cachedServer = (0, aws_serverless_express_1.createServer)(expressApp);
-        } catch (error) {
+        }
+        catch (error) {
             return Promise.reject(error);
         }
     }
     return Promise.resolve(cachedServer);
 }
-const handler = async(event, context) => {
+const handler = async (event, context) => {
     context.callbackWaitsForEmptyEventLoop = false;
     cachedServer = await bootstrapServer();
     return (0, aws_serverless_express_1.proxy)(cachedServer, event, context, 'PROMISE').promise;

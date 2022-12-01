@@ -2,11 +2,11 @@ import {Injectable} from "@nestjs/common";
 import {InjectModel} from "@nestjs/mongoose";
 import {ObjectId} from "bson";
 import {Model} from "mongoose";
-import {ProductType, ProductTypeDocument} from "src/product/schemas/product.schema";
-import {Supplier, SupplierDocument} from "src/supplier/schemas/supplier.schema";
+import {ProductType, ProductTypeDocument} from "src/schemas/product.schema";
+import {Supplier, SupplierDocument} from "src/schemas/supplier.schema";
 import {helper} from "src/utils/helper";
 import {ESTIMATE_DEFAULT} from "../utils/enum";
-import {ProductTypeDto} from "./dto/base-product-type.dto";
+import {ProductTypeDto} from "../dto/product-type.dto";
 
 @Injectable()
 export class ProductService {
@@ -19,12 +19,12 @@ export class ProductService {
     return {
       orderPlace: new Date(),
       shipping: {
-        min: helper.addDateExcWorkingDay("min", dateStart, data.config.shipping.min),
-        max: helper.addDateExcWorkingDay("max", dateStart, data.config.shipping.max)
+        min: helper.addDateExcludeWorkingDay("min", dateStart, data.config.shipping.min),
+        max: helper.addDateExcludeWorkingDay("max", dateStart, data.config.shipping.max)
       },
       delivery: {
-        min: helper.addDateExcWorkingDay("min", dateStart, data.config.delivery.min),
-        max: helper.addDateExcWorkingDay("max", dateStart, data.config.delivery.max)
+        min: helper.addDateExcludeWorkingDay("min", dateStart, data.config.delivery.min),
+        max: helper.addDateExcludeWorkingDay("max", dateStart, data.config.delivery.max)
       },
       config: data
     };;

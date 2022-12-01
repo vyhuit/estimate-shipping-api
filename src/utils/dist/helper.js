@@ -3,7 +3,7 @@ exports.__esModule = true;
 exports.helper = void 0;
 var enum_1 = require("./enum");
 var helper = {
-    addDateExcWorkingDay: function (a, fromDate, days) {
+    addDateExcludeWorkingDay: function (a, fromDate, days) {
         var count = 0;
         var date = new Date(fromDate);
         while (count < days) {
@@ -16,6 +16,7 @@ var helper = {
         return date;
     },
     getRandomInt: function (max) {
+        if (max === void 0) { max = 1000; }
         return Math.floor(Math.random() * max);
     }
 };

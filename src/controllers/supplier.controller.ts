@@ -10,8 +10,8 @@ import {
   Put,
   Res
 } from "@nestjs/common";
-import {BaseSupplierDto} from "./dto/base-supplier.dto";
-import {SupplierService} from "./supplier.service";
+import {SupplierDto} from "../dto/supplier.dto";
+import {SupplierService} from "../services/supplier.service";
 
 @Controller("supplier")
 export class SupplierController {
@@ -29,7 +29,7 @@ export class SupplierController {
   };
 
   @Post("create")
-  async create(@Res()response : any, @Body()data : BaseSupplierDto) {
+  async create(@Res()response : any, @Body()data : SupplierDto) {
     try {
       const result = await this.supplierService.create(data);
       return response.status(HttpStatus.OK).json({isSuccess: true, message: 'Supplier has been successfully created', result});
@@ -63,7 +63,7 @@ export class SupplierController {
   };
 
   @Put("/:id")
-  async update(@Res()response : any, @Param("id") id : string, @Body()data : BaseSupplierDto) {
+  async update(@Res()response : any, @Param("id") id : string, @Body()data : SupplierDto) {
     try {
       const result = await this.supplierService.update(id, data);
       return response.status(HttpStatus.OK).json({isSuccess: true, message: 'Successfully updated', result});
