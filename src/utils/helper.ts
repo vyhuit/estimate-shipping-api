@@ -1,7 +1,7 @@
 import {DAY_IN_WEEK_INDEX} from "./enum";
 
 const helper = {
-  addDateExcludeWorkingDay: function(a:string,fromDate: Date, days: number) {
+  addDateExcWorkingDay: function(a:string,fromDate: Date, days: number) {
     let count = 0;
     let date = new Date(fromDate);
     while (count < days) {
@@ -12,7 +12,7 @@ const helper = {
     };
     return date;
   },
-  getRandomInt: (max: number = 1000) => {
+  getRandomInt: (max: number) => {
     return Math.floor(Math.random() * max);
   }
 };

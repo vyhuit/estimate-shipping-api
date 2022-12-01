@@ -4,14 +4,14 @@ import {response} from "express";
 import {Model} from "mongoose";
 import {ResponseModel} from "src/utils/models";
 import {resourceLimits} from "worker_threads";
-import {SupplierDto} from "../dto/supplier.dto";
-import {Supplier, SupplierDocument} from "../schemas/supplier.schema";
+import {BaseSupplierDto} from "./dto/base-supplier.dto";
+import {Supplier, SupplierDocument} from "./schemas/supplier.schema";
 
 @Injectable()
 export class SupplierService {
   constructor(@InjectModel(Supplier.name) private readonly supplierModel : Model < SupplierDocument >,) {};
 
-  async create(createSupplierDto : SupplierDto): Promise < Supplier > {
+  async create(createSupplierDto : BaseSupplierDto): Promise < Supplier > {
     return this.supplierModel.create(createSupplierDto);
   };
 
@@ -25,7 +25,7 @@ export class SupplierService {
     return result;
   };
 
-  async update(id : string, data : SupplierDto) {
+  async update(id : string, data : BaseSupplierDto) {
     const result = await this.supplierModel.findByIdAndUpdate(id, data);
     if (! result) {
       throw new NotFoundException(`Student ${

@@ -6,8 +6,8 @@ import {
   Post,
   Res
 } from "@nestjs/common";
-import {ProductTypeDto} from "../dto/product-type.dto";
-import {ProductService} from "../services/product.service";
+import {ProductTypeDto} from "./dto/base-product-type.dto";
+import {ProductService} from "./product.service";
 
 @Controller("product")
 export class ProductController {

@@ -1,9 +1,9 @@
 import {Module} from '@nestjs/common';
 import {MongooseModule} from '@nestjs/mongoose';
-import {ProductType, ProductSchema} from 'src/schemas/product.schema';
-import { Supplier, SupplierSchema } from 'src/schemas/supplier.schema';
-import {ProductController} from '../controllers/product.controller';
-import {ProductService} from '../services/product.service';
+import {ProductType, ProductSchema} from 'src/product/schemas/product.schema';
+import { Supplier, SupplierSchema } from 'src/supplier/schemas/supplier.schema';
+import {ProductController} from './product.controller';
+import {ProductService} from './product.service';
 
 @Module({
   providers: [ProductService],
