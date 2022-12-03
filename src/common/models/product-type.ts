@@ -1,4 +1,4 @@
-export class ProductTypeDto {
+export class ProductTypeModel {
   type : string;
   supplierId : string;
 };

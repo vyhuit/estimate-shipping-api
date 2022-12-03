@@ -26,6 +26,7 @@
         "@middy/core": "^4.0.0",
         "@middy/http-cors": "^4.0.0",
         "@nestjs/common": "^9.0.0",
+        "@nestjs/config": "^2.2.0",
         "@nestjs/core": "^9.0.0",
         "@nestjs/mongoose": "^9.2.1",
         "@nestjs/platform-express": "^9.0.0",

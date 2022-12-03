@@ -6,15 +6,15 @@ import {
   Post,
   Res
 } from "@nestjs/common";
-import {ProductTypeDto} from "./dto/base-product-type.dto";
-import {ProductService} from "./product.service";
+import { ProductTypeModel } from "src/common/models/product-type";
+import { ProductService } from "../services/product.service";
 
 @Controller("product")
 export class ProductController {
   constructor(private prodService : ProductService) {};
 
   @Post("estimate-shipping")
-  async estimateShipping(@Body() data : any, @Res() response : any) {
+  async estimateShipping(@Body()data : any, @Res()response : any) {
     try {
       console.log("controller data: ", data);
 
@@ -27,7 +27,7 @@ export class ProductController {
   };
 
   @Post("product-type-supplier")
-  async createProductTypeWithSupplier(@Body()data : ProductTypeDto, @Res()response : any) {
+  async createProductTypeWithSupplier(@Body()data : ProductTypeModel, @Res()response : any) {
     try {
       const newProductType = await this.prodService.create(data);
       return response.status(HttpStatus.OK).json({isSuccess: true, message: 'Successfully', data: newProductType});
