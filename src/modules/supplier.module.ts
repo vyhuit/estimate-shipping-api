@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Supplier, SupplierSchema } from './schemas/supplier.schema';
-import { SupplierController } from './supplier.controller';
-import { SupplierService } from './supplier.service';
+import { Supplier, SupplierSchema } from '../schemas/supplier.schema';
+import { SupplierController } from '../controllers/supplier.controller';
+import { SupplierService } from '../services/supplier.service';
 
 @Module({
   providers: [SupplierService],

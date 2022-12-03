@@ -1,4 +1,4 @@
-export class BaseSupplierDto {
+export class SupplierModel {
   name : string;
   config : any;
 };
