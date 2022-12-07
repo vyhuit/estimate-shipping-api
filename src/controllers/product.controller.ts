@@ -4,10 +4,13 @@ import {
   HttpStatus,
   NotFoundException,
   Post,
-  Res
+  Res,
+  UseGuards
 } from "@nestjs/common";
 import { ProductTypeModel } from "src/common/models/product-type";
+import { ThrottlerBehindProxyGuard } from "src/security/guard/throttler-behind-proxy.guard";
 import { ProductService } from "../services/product.service";
+@UseGuards(ThrottlerBehindProxyGuard)
 
 @Controller("product")
 export class ProductController {
@@ -16,8 +19,6 @@ export class ProductController {
   @Post("estimate-shipping")
   async estimateShipping(@Body()data : any, @Res()response : any) {
     try {
-      console.log("controller data: ", data);
-
       const result = await this.prodService.estimateShipping(data);
       return response.status(HttpStatus.OK).json({isSuccess: true, message: 'Successfully', data: result});
     } catch (err) {

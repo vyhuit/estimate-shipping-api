@@ -8,15 +8,20 @@ import {
   Param,
   Post,
   Put,
-  Res
+  Res,
+  UseGuards
 } from "@nestjs/common";
-import { SupplierModel } from "src/common/models/supplier";
+import {SkipThrottle} from "@nestjs/throttler";
+import {SupplierModel} from "src/common/models/supplier";
+import {ThrottlerBehindProxyGuard} from "src/security/guard/throttler-behind-proxy.guard";
 import {SupplierService} from "../services/supplier.service";
+@UseGuards(ThrottlerBehindProxyGuard)
 
 @Controller("supplier")
 export class SupplierController {
   constructor(private supplierService : SupplierService,) {};
 
+// @SkipThrottle()
   @Get()
   async getAll(@Res()response : any) {
     try {
@@ -50,7 +55,7 @@ export class SupplierController {
     }
   };
 
-
+// @SkipThrottle()
   @Get("/:id")
   async getSupplier(@Res()response : any, @Param("id")id : string) {
     try {

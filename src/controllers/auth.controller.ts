@@ -1,16 +1,9 @@
-import { Controller, Post, Get } from "@nestjs/common";
-import { AuthService } from "../services/auth.service";
+import { Controller, Post, Get, UseGuards } from "@nestjs/common";
+import { ThrottlerBehindProxyGuard } from "src/security/guard/throttler-behind-proxy.guard";
+import { AuthService } from "src/services/auth.service";
 
+@UseGuards(ThrottlerBehindProxyGuard)
 @Controller("auth")
 export class AuthController {
   constructor(private authService: AuthService) {}
-
-  @Post("signup")
-  signup() {
-    return this.authService.signup();
-  }
-  @Post("signin")
-  signin() {
-    return this.authService.signin();
-  }
 }
