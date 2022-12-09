@@ -4,7 +4,7 @@ import {ObjectId} from "bson";
 import {Model} from "mongoose";
 import { ESTIMATE_DEFAULT } from "src/common/constants/estimate-shipping";
 import { addDateExcludeWorkingDay } from "src/common/helpers/estimate-shipping";
-import { ProductTypeModel } from "src/common/models/product-type";
+import { ProductTypeModel } from "src/models/product-type";
 import {ProductType, ProductTypeDocument} from "src/schemas/product.schema";
 import {Supplier, SupplierDocument} from "src/schemas/supplier.schema";
 

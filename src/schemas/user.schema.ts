@@ -13,6 +13,15 @@ export class User {
 
   @Prop()
   name : string;
+
+  @Prop()
+  createdDay : Date;
+
+  @Prop()
+  isActive : boolean;
+
+  @Prop()
+  refresh_token : string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -1,3 +1,5 @@
+import {ConfigService} from "@nestjs/config";
+
 let getRandomInt = (max : number) => {
   return Math.floor(Math.random() * max);
 }
@@ -9,7 +11,12 @@ let mowLogsConsole = (name : string = "MOW CONSOLE", ...log : any) => {
 
 }
 
+let paramsRequire = (paramName : any) => {
+  throw `${paramName} is required!!!`;
+}
+
 export {
   getRandomInt,
-  mowLogsConsole
+  mowLogsConsole,
+  paramsRequire
 };

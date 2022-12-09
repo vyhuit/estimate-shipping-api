@@ -11,6 +11,18 @@ export class Supplier {
 
   @Prop({type: Object, required: true})
   config : any;
+  
+  @Prop()
+  createdById: string;
+
+  @Prop()
+  createdDay: Date;
+
+  @Prop()
+  updatedById: string;
+
+  @Prop()
+  updatedDay: Date;
 }
 
 export const SupplierSchema = SchemaFactory.createForClass(Supplier);

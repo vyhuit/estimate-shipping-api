@@ -6,11 +6,17 @@ export type ProductTypeDocument = ProductType & Document;
 @Schema()
 export class ProductType {
 
-  @Prop({required: true})
+  @Prop({required: true, unique: true})
   type : string;
 
   @Prop({required: true})
   supplierId : string;
+  
+  @Prop()
+  createdById: string;
+
+  @Prop()
+  createdDay: Date;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(ProductType);

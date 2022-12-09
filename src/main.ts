@@ -26,7 +26,6 @@ process.on('uncaughtException', (reason) => {
 async function bootstrapServer(): Promise<Server> {
   if (! cachedServer) {
     try {
-      const TRUST_IPS = ["104.28.205.70"];
       const expressApp = express();
       const nestApp = await NestFactory.create(AppModule);
       nestApp.use(eventContext());
