@@ -4,13 +4,13 @@ import {ObjectId} from "bson";
 import {Model} from "mongoose";
 import { ESTIMATE_DEFAULT } from "src/common/constants/estimate-shipping";
 import { addDateExcludeWorkingDay } from "src/common/helpers/estimate-shipping";
-import { ProductTypeModel } from "src/common/models/product-type";
+import { ProductTypeModel } from "src/models/product-type";
 import {ProductType, ProductTypeDocument} from "src/schemas/product.schema";
 import {Supplier, SupplierDocument} from "src/schemas/supplier.schema";
 
 @Injectable()
 export class ProductService {
-  constructor(@InjectModel(ProductType.name)private readonly productTypeModel : Model < ProductTypeDocument >, @InjectModel(Supplier.name)private readonly supplierModel : Model < SupplierDocument >) {};
+  constructor(@InjectModel(ProductType.name) private readonly productTypeModel : Model < ProductTypeDocument >, @InjectModel(Supplier.name) private readonly supplierModel : Model < SupplierDocument >) {};
 
   async getEstimateTime(supplier : string, dateStart : Date) {
     const supplierCheck = await this.supplierModel.findOne({_id: supplier});

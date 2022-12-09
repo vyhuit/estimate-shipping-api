@@ -1,16 +1,48 @@
-import { Controller, Post, Get } from "@nestjs/common";
-import { AuthService } from "../services/auth.service";
+import {
+  Controller,
+  Post,
+  Get,
+  Request,
+  UseGuards,
+  UnauthorizedException
+} from "@nestjs/common";
+import {ThrottlerBehindProxyGuard} from "src/common/guard/throttler-behind-proxy.guard";
+import {AuthService} from "src/services/auth.service";
+import {AccessTokenAuthGuard} from 'src/common/guard/access-token.guard';
+import {UsersService} from 'src/services/users.service';
+import {LocalAuthGuard} from '../common/guard/local-auth.guard';
+import {RefreshTokenGuard} from "src/common/guard/refresh-token.guard";
+import {mowLogsConsole} from "src/common/helpers/public";
 
+@UseGuards(ThrottlerBehindProxyGuard)
 @Controller("auth")
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService : AuthService, private readonly userService : UsersService) {};
 
-  @Post("signup")
-  signup() {
-    return this.authService.signup();
-  }
-  @Post("signin")
-  signin() {
-    return this.authService.signin();
+  @Post('register')
+  async register(@Request()req : any) {
+    return this.userService.create(req.body);
+  };
+
+  @UseGuards(LocalAuthGuard)
+  @Post('login')
+  async login(@Request()req : any) {
+    return this.authService.login(req.user);
+  };
+
+  @UseGuards(AccessTokenAuthGuard)
+  @Get('profile')
+  getProfile(@Request()req : any) {
+    return req.user;
+  };
+
+  @UseGuards(RefreshTokenGuard)
+  @Get("/refresh")
+  refreshTokens(@Request()req : any) {
+    if (req.user) {
+      return this.authService.refreshTokens(req.user);
+    } else {
+      throw new UnauthorizedException();
+    }
   }
 }

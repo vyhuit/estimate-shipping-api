@@ -13,19 +13,3 @@ class ResponseModel {
     return this;
   }
 };
-
-interface SupplierConfig {
-  delivery: {
-    max: number,
-    min: number
-  },
-  shipping: {
-    max: number,
-    min: number
-  }
-}
-
-
-export {
-  ResponseModel
-};

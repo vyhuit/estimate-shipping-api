@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { SupplierModel } from "src/common/models/supplier";
+import { SupplierModel } from "src/models/supplier";
 import { Supplier, SupplierDocument } from "../schemas/supplier.schema";
 
 @Injectable()
@@ -12,10 +12,8 @@ export class SupplierService {
     return this.supplierModel.create(createSupplierDto);
   };
 
-  async delete(type : string): Promise < Supplier > {
-    const result = await this.supplierModel.findOneAndRemove(
-      {name: type}
-    );
+  async delete(id : string): Promise < Supplier > {
+    const result = await this.supplierModel.findByIdAndRemove(id);
     if (! result) {
       throw new NotFoundException(`Error`);
     }
@@ -25,7 +23,7 @@ export class SupplierService {
   async update(id : string, data : SupplierModel) {
     const result = await this.supplierModel.findByIdAndUpdate(id, data);
     if (! result) {
-      throw new NotFoundException(`Student ${
+      throw new NotFoundException(`Supplier ${
         data.name
       } #${id} not found`);
     }
