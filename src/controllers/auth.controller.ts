@@ -4,7 +4,8 @@ import {
   Get,
   Request,
   UseGuards,
-  UnauthorizedException
+  UnauthorizedException,
+  Response
 } from "@nestjs/common";
 import {ThrottlerBehindProxyGuard} from "src/common/guard/throttler-behind-proxy.guard";
 import {AuthService} from "src/services/auth.service";
@@ -12,7 +13,7 @@ import {AccessTokenAuthGuard} from 'src/common/guard/access-token.guard';
 import {UsersService} from 'src/services/users.service';
 import {LocalAuthGuard} from '../common/guard/local-auth.guard';
 import {RefreshTokenGuard} from "src/common/guard/refresh-token.guard";
-import {mowLogsConsole} from "src/common/helpers/public";
+import { mowLogsConsole } from "src/common/helpers/public";
 
 @UseGuards(ThrottlerBehindProxyGuard)
 @Controller("auth")
@@ -26,8 +27,12 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Request()req : any) {
-    return this.authService.login(req.user);
+  async login(@Request()req : any, @Response() res:any) {
+    // mowLogsConsole("COOKIE SETTING");
+    const loggedin = await this.authService.login(req.user);
+    // mowLogsConsole("COOKIE SETED",loggedin);
+    res.cookie("access-token", loggedin.accessToken).json(loggedin)
+    // return loggedin;
   };
 
   @UseGuards(AccessTokenAuthGuard)

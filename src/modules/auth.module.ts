@@ -13,7 +13,23 @@ import {AuthController} from 'src/controllers/auth.controller';
 @Module({
   controllers: [AuthController],
   imports: [
-    JwtModule.register({}), UsersModule, PassportModule, AuthModule
+    JwtModule.registerAsync(
+      {
+        imports: [ConfigModule],
+        useFactory: (configService : ConfigService) => {
+          return {
+            secret: configService.get<string>('JWT_SECRET'),
+            signOptions: {
+              expiresIn: configService.get<string>('JWT_EXPIRED')
+            }
+          };
+        },
+        inject: [ConfigService]
+      }
+    ),
+    UsersModule,
+    PassportModule,
+    AuthModule
   ],
   providers: [
     JwtService,
